@@ -1,0 +1,2 @@
+# RotatingProjectionMap
+a project to create a projection mapped movable square using radial encoders and processing.
