@@ -25,6 +25,7 @@ float rotationAngle;  //in degrees
 PImage img;
 int imageStartX;
 int imageStartY;
+float e = 0;
   
 void setup()
 {
@@ -68,25 +69,10 @@ void setup()
 }
 
 void draw() {  
-  //nothing here since all is event driven by mouse scroll wheel
-  //scale(0.25);
-  //rotate(radians(20.0));
-  //image(animation[(int) (animation.length / (float) (width) * mouseX)], width - 10 - animation[0].width, height / 2 - animation[0].height / 2);
-}
-
-void mouseWheel(MouseEvent event) {
-  float e = event.getCount();
-  //println(e);
-  
   scale(imageScale,imageScale);
   //translate(rotationCenterX/imageScale+400, rotationCenterY/imageScale-imageHeight/2.0);
   translate(rotationCenterX/imageScale, rotationCenterY/imageScale);
 
-  if (e > 0) {
-    rotationAngle += 360.0/(float)encoderResolution;
-  } else {
-    rotationAngle -= 360.0/(float)encoderResolution;
-  }
   rotate(radians(rotationAngle));
   if ( (rotationAngle > 360) || (rotationAngle < -360) ) rotationAngle = 0.0;
   //println(rotationAngle);
@@ -94,6 +80,22 @@ void mouseWheel(MouseEvent event) {
   background(0);
   
   image(animation[(int) ( (animation.length-1) / 360.0 * abs(rotationAngle) )], imageStartX, imageStartY);
+  //prevents draw from looping.
+  noLoop();
+}
+
+void mouseWheel(MouseEvent event) {
+  float e = event.getCount();
+  println(e);
+  
+  if (e > 0) {
+    rotationAngle += 360.0/(float)encoderResolution;
+    println("e>0");
+  } else {
+    rotationAngle -= 360.0/(float)encoderResolution;
+    println("e<0");
+  }
+  redraw();
 /*
   beginShape();
   texture(img);
